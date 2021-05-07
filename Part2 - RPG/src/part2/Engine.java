@@ -10,17 +10,18 @@ class BuildUp {
     boolean exitSig = false;
     String level;
 
-    static int width = 1280, height = 720;       //设定画面宽高
-    static int textAreaHeight = 483;
-    static int textWidth = 42;
-    static float fontSize = 19.0F;
-    static int textLeftSide = width/2 - (int) fontSize*(textWidth/2);
-    static int textUpperSide = 520;
+    private static final int width = 1280;
+    private static final int height = 720;       //设定画面宽高
+    static final int textAreaHeight = 580;
+    final static int textWidth = 30;
+    final static float fontSize = 30.0F;
+    final static int textLeftSide = 130;
+    final static int textUpperSide = 600;
 
-    JFrame frame;
-    Display display = new Display();
+    private final JFrame frame;
+    final Display display = new Display();
 
-    int fps = 45;                               //设定每秒帧数
+    private final static int fps = 45;                               //设定每秒帧数
     ToolBox tb;                 //创建工具箱对象
 
     Player player;
@@ -44,12 +45,12 @@ class BuildUp {
         this.tb = new ToolBox(this);
 
         tb.levelLoadIn();
-        scene = new Scene(enemy, player);
+        scene = new Scene(tb, enemy, player);
 
-//        tb.keyBindingSetUp();
+        tb.keyBindingSetUp();
 
         frame.add(display);
-        frame.setVisible(false);
+        frame.setVisible(true);
 
         timer.start();
 
@@ -72,7 +73,7 @@ class BuildUp {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
 
-            //scene.drawTheScene(g2d);
+            scene.drawTheScene(g2d);
         }
     }
 
@@ -81,6 +82,10 @@ class BuildUp {
         timer.stop();
         frame.remove(display);
         this.exitSig = true;
+    }
+
+    public void gameFailed() {
+        gameRestart();
     }
 
     public void gameRestart() {

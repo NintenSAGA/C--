@@ -179,7 +179,7 @@ public class Scene {
 
     }
 
-    public void objText() {
+    public void up() {
         if ((mode+phase).equals("A1")){
             this.mode = "S";
             aniObj();

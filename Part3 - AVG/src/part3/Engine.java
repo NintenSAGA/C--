@@ -9,12 +9,12 @@ class BuildUp {
     boolean exitSig = false;
     String level;
 
-    static int width = 1280, height = 720;       //设定画面宽高
-    static int textAreaHeight = 483;
-    static int textWidth = 42;
-    static float fontSize = 19.0F;
-    static int textLeftSide = width/2 - (int) fontSize*(textWidth/2);
-    static int textUpperSide = 520;
+    private final static int width = 1280, height = 720;       //设定画面宽高
+    final static int textAreaHeight = 483;
+    final static int textWidth = 42;
+    final static float fontSize = 19.0F;
+    final static int textLeftSide = width/2 - (int) fontSize*(textWidth/2);
+    final static int textUpperSide = 520;
 
     JFrame frame;
     Display display = new Display();

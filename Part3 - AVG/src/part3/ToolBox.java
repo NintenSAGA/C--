@@ -83,7 +83,7 @@ public class ToolBox {
 
         keyMap.put('A', bu.sceneNow::prevText);
         keyMap.put('D', bu.sceneNow::nextText);
-        keyMap.put('W', bu.sceneNow::objText);
+        keyMap.put('W', bu.sceneNow::up);
         keyMap.put('P', bu.sceneNow::stageInit);
         keyMap.put('O', bu::gameRestart);
 

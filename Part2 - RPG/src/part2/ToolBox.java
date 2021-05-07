@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -40,7 +39,7 @@ public class ToolBox {
                     continue;
                 }
                 String[] data = line.split("\\|");
-                artsList.add(new Arts(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2])));
+                artsList.add(new Arts(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2]), data[3]));
                 line = scanner.nextLine();
             } while (!line.equals("END_OF_PLAYER"));
             player = new Player(info[1], Double.parseDouble(info[2]), artsList);
@@ -70,7 +69,7 @@ public class ToolBox {
         }
     }
 
-    public ArrayList<String> wordsWrapping(String sentence, int width) {
+    public static ArrayList<String> wordsWrapping(String sentence, int width) {
         StringBuilder line = new StringBuilder();
         ArrayList<String> result = new ArrayList<>();
         int count = 0;
@@ -93,72 +92,86 @@ public class ToolBox {
         return result;
     }
 
-    void drawString(Graphics g, String textNow, int x, int y, int w) {
-        for (String line : wordsWrapping(textNow, w))
-            g.drawString(line, x, y += g.getFontMetrics().getHeight()*1.5);
+    public static void drawString(Graphics g, String textNow, int x, int y, int w) {
+        if(textNow.length() == 0) return;
+        int dy = (int)(g.getFontMetrics().getHeight()*1.2);
+        for (String line : wordsWrapping(textNow, w)) {
+            g.drawString(line, x, y);
+            y += dy;
+        }
     }
 
-//    public void keyBindingSetUp() {
-//        //KeyBinding
-//
-//        keyMap.put('A', bu.sceneNow::prevText);
-//        keyMap.put('D', bu.sceneNow::nextText);
-//        keyMap.put('W', bu.sceneNow::objText);
-//        keyMap.put('P', bu.sceneNow::stageInit);
-//        keyMap.put('O', bu::gameRestart);
-//
-//        KeyStroke A_Pressed = KeyStroke.getKeyStroke('A', 0, false);
-//        KeyStroke D_Pressed = KeyStroke.getKeyStroke('D', 0, false);
-//        KeyStroke W = KeyStroke.getKeyStroke('W', 0, false);
-//        KeyStroke P = KeyStroke.getKeyStroke('P', 0, false);
-//        KeyStroke O = KeyStroke.getKeyStroke('O', 0, false);
-//
-//        AbstractAction left = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                keyTransit('A');
-//            }
-//        };
-//        AbstractAction right = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                keyTransit('D');
-//            }
-//        };
-//        AbstractAction objection = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                keyTransit('W');
-//            }
-//        };
-//        AbstractAction finish = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                keyTransit('P');
-//            }
-//        };
-//        AbstractAction restart = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                keyTransit('O');
-//            }
-//        };
-//
-//        InputMap inputMap = bu.display.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-//        ActionMap actionMap = bu.display.getActionMap();
-//
-//        inputMap.put(A_Pressed, "left");
-//        inputMap.put(D_Pressed, "right");
-//        inputMap.put(W, "objection");
-//        inputMap.put(P, "finish");
-//        inputMap.put(O, "restart");
-//
-//        actionMap.put("left", left);
-//        actionMap.put("right", right);
-//        actionMap.put("objection", objection);
-//        actionMap.put("finish", finish);
-//        actionMap.put("restart", restart);
-//    }
+    public void keyBindingSetUp() {
+        //KeyBinding
+
+        keyMap.put('A', bu.scene::prevText);
+        keyMap.put('D', bu.scene::nextText);
+        keyMap.put('W', bu.scene::up);
+        keyMap.put('S', bu.scene::down);
+        keyMap.put('P', bu.scene::stageInit);
+        keyMap.put('O', bu::gameRestart);
+
+        KeyStroke A_Pressed = KeyStroke.getKeyStroke('A', 0, false);
+        KeyStroke D_Pressed = KeyStroke.getKeyStroke('D', 0, false);
+        KeyStroke W = KeyStroke.getKeyStroke('W', 0, false);
+        KeyStroke P = KeyStroke.getKeyStroke('P', 0, false);
+        KeyStroke O = KeyStroke.getKeyStroke('O', 0, false);
+        KeyStroke S = KeyStroke.getKeyStroke('S', 0, false);
+
+        AbstractAction left = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('A');
+            }
+        };
+        AbstractAction right = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('D');
+            }
+        };
+        AbstractAction up = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('W');
+            }
+        };
+        AbstractAction finish = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('P');
+            }
+        };
+        AbstractAction restart = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('O');
+            }
+        };
+        AbstractAction down = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('S');
+            }
+        };
+
+        InputMap inputMap = bu.display.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = bu.display.getActionMap();
+
+        inputMap.put(A_Pressed, "left");
+        inputMap.put(D_Pressed, "right");
+        inputMap.put(W, "up");
+        inputMap.put(P, "finish");
+        inputMap.put(O, "restart");
+        inputMap.put(S, "down");
+
+        actionMap.put("left", left);
+        actionMap.put("right", right);
+        actionMap.put("up", up);
+        actionMap.put("finish", finish);
+        actionMap.put("restart", restart);
+        actionMap.put("down", down);
+    }
 
     public void keyTransit(char key) {
         keyMap.get(key).run();
