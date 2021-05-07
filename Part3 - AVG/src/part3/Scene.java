@@ -1,6 +1,7 @@
 package part3;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -304,6 +305,7 @@ class GameCharacter {
     BufferedImage oppo_speak, oppo_surprise, oppo_questioned, oppo_counter;
     BufferedImage bg_left, bg_right;
     HashMap<String, BufferedImage> imageMap = new HashMap<>();
+
 
     public GameCharacter(String self, String oppo, String bg, String filePlace) {
         try {

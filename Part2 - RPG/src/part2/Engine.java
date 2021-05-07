@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class BuildUp {
     boolean exitSig = false;
@@ -24,6 +25,9 @@ class BuildUp {
 
     Player player;
     Enemy enemy;
+    Scene scene;
+
+    Scanner scanner;
 
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
@@ -40,17 +44,25 @@ class BuildUp {
         this.tb = new ToolBox(this);
 
         tb.levelLoadIn();
+        scene = new Scene(enemy, player);
 
 //        tb.keyBindingSetUp();
 
         frame.add(display);
-        frame.setVisible(true);
+        frame.setVisible(false);
 
         timer.start();
+
+        scanner = new Scanner(System.in);
     }
 
     public void loop() {
+        player.update();
+        enemy.update();
 
+        scene.update();
+
+//        System.out.println(scanner.nextLine());
     }
 
     class Display extends JPanel {
@@ -58,8 +70,9 @@ class BuildUp {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
             Graphics2D g2d = (Graphics2D) g;
+
+            //scene.drawTheScene(g2d);
         }
     }
 
