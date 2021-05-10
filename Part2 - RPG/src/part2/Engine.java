@@ -13,7 +13,7 @@ class BuildUp {
     private static final int width = 1280;
     private static final int height = 720;       //设定画面宽高
     static final int textAreaHeight = 580;
-    final static int textWidth = 30;
+    final static int textWidth = 35;
     final static float fontSize = 30.0F;
     final static int textLeftSide = 130;
     final static int textUpperSide = 600;
@@ -28,7 +28,12 @@ class BuildUp {
     Enemy enemy;
     Scene scene;
 
-    Scanner scanner;
+    float opacity;
+    float maxOpacity = 1.0F;
+    float oV;
+    float oA = 0.001F;
+    boolean fadeIn;
+    boolean fadeOut;
 
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
@@ -43,6 +48,10 @@ class BuildUp {
     public void setUp(String level) {
         this.level = level;
         this.tb = new ToolBox(this);
+        opacity = maxOpacity;
+        fadeIn = true;
+        oV = 0;
+        fadeOut = false;
 
         tb.levelLoadIn();
         scene = new Scene(tb, enemy, player);
@@ -53,17 +62,16 @@ class BuildUp {
         frame.setVisible(true);
 
         timer.start();
-
-        scanner = new Scanner(System.in);
     }
 
     public void loop() {
-        player.update();
-        enemy.update();
+        if (!fadeIn) {
+            player.update();
+            enemy.update();
+            scene.update();
+        }
 
-        scene.update();
-
-//        System.out.println(scanner.nextLine());
+        fadeUpdate();
     }
 
     class Display extends JPanel {
@@ -74,21 +82,51 @@ class BuildUp {
             Graphics2D g2d = (Graphics2D) g;
 
             scene.drawTheScene(g2d);
+            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
         }
-    }
-
-    public void gameSet() {
-        display.repaint();
-        timer.stop();
-        frame.remove(display);
-        this.exitSig = true;
     }
 
     public void gameFailed() {
         gameRestart();
     }
 
+    public void gameSet() {
+        fadeOut = true;
+    }
+
+    public void gameExit() {
+        display.repaint();
+        timer.stop();
+        frame.remove(display);
+        this.exitSig = true;
+    }
+
     public void gameRestart() {
         this.setUp(level);
+    }
+
+    public void blackScreen(Graphics2D g2d) {
+        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
+        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, width, height);
+        g2d.dispose();
+    }
+
+    public void fadeUpdate() {
+        if (fadeIn) {
+            oV += oA;
+            opacity -= oV;
+            if (opacity <= 0) {
+                oV = 0;
+                scene.nextText();
+                fadeIn = false;
+            }
+        }
+        if (fadeOut) {
+            oV += oA;
+            opacity += oV;
+            if (opacity >= maxOpacity) gameExit();
+        }
     }
 }

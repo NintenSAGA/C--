@@ -17,6 +17,7 @@ public class GameSelector {
 
     static {
         map.put("1", part1.NewGame::runThis);       //游戏一
+        map.put("2", part2.NewGame::runThis);
         map.put("3", part3.NewGame::runThis);
         map.put("4", part4.NewGame::runThis);       //游戏二
     }
@@ -66,7 +67,7 @@ public class GameSelector {
         jTextField.setEditable(false);
 
         part1.addActionListener((e) -> {loadKey = true; choice = "1";});
-        part2.addActionListener((e) -> jTextField.setText("李佳骏是弟弟"));
+        part2.addActionListener((e) -> {loadKey = true; choice = "2";});
         part3.addActionListener((e) -> {loadKey = true; choice = "3";});
         part4.addActionListener((e) -> {loadKey = true; choice = "4";});
 

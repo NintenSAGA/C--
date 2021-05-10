@@ -81,7 +81,7 @@ public class ToolBox {
                 count += 1;
             }
             line.append(ch);
-            if (count == width) {
+            if (count == width || ch == '\n') {
                 count = 0;
                 result.add(line.toString());
                 line = new StringBuilder();
@@ -94,7 +94,9 @@ public class ToolBox {
 
     public static void drawString(Graphics g, String textNow, int x, int y, int w) {
         if(textNow.length() == 0) return;
-        int dy = (int)(g.getFontMetrics().getHeight()*1.2);
+        float fontSize = g.getFont().getSize();
+        y += fontSize;
+        int dy = (int)(fontSize*1.2);
         for (String line : wordsWrapping(textNow, w)) {
             g.drawString(line, x, y);
             y += dy;
@@ -108,8 +110,9 @@ public class ToolBox {
         keyMap.put('D', bu.scene::nextText);
         keyMap.put('W', bu.scene::up);
         keyMap.put('S', bu.scene::down);
-        keyMap.put('P', bu.scene::stageInit);
+        keyMap.put('P', bu::gameSet);
         keyMap.put('O', bu::gameRestart);
+        keyMap.put('I', bu.scene::showInfo);
 
         KeyStroke A_Pressed = KeyStroke.getKeyStroke('A', 0, false);
         KeyStroke D_Pressed = KeyStroke.getKeyStroke('D', 0, false);
@@ -117,6 +120,7 @@ public class ToolBox {
         KeyStroke P = KeyStroke.getKeyStroke('P', 0, false);
         KeyStroke O = KeyStroke.getKeyStroke('O', 0, false);
         KeyStroke S = KeyStroke.getKeyStroke('S', 0, false);
+        KeyStroke I = KeyStroke.getKeyStroke('I', 0, false);
 
         AbstractAction left = new AbstractAction() {
             @Override
@@ -154,6 +158,12 @@ public class ToolBox {
                 keyTransit('S');
             }
         };
+        AbstractAction info = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keyTransit('I');
+            }
+        };
 
         InputMap inputMap = bu.display.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = bu.display.getActionMap();
@@ -164,6 +174,7 @@ public class ToolBox {
         inputMap.put(P, "finish");
         inputMap.put(O, "restart");
         inputMap.put(S, "down");
+        inputMap.put(I, "info");
 
         actionMap.put("left", left);
         actionMap.put("right", right);
@@ -171,6 +182,7 @@ public class ToolBox {
         actionMap.put("finish", finish);
         actionMap.put("restart", restart);
         actionMap.put("down", down);
+        actionMap.put("info", info);
     }
 
     public void keyTransit(char key) {
