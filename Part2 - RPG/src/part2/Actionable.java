@@ -1,9 +1,11 @@
 package part2;
 
 import javax.imageio.ImageIO;
+import javax.tools.Tool;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -154,10 +156,10 @@ class Player extends Actionable{
                 .collect(Collectors.toList());
 
         try {
-            block = ImageIO.read(new File("material/Part2/Player block.png"));
-            hpBar = ImageIO.read(new File("material/Part2/Player hp.png"));
-            front = tk.getImage("material/Part2/player_front.gif");
-            back = tk.getImage("material/Part2/player_back.gif");
+            block = ImageIO.read(ToolBox.res("Player block.png"));
+            hpBar = ImageIO.read(ToolBox.res("Player hp.png"));
+            front = tk.getImage(ToolBox.res("player_front.gif"));
+            back = tk.getImage(ToolBox.res("player_back.gif"));
             blockLeftX = 0;
             blockUpperY = 500;
             hpLeftX = 14;
@@ -187,6 +189,7 @@ class Player extends Actionable{
     @Override
     public void drawYourSelf(Graphics2D g2d) {
         super.drawYourSelf(g2d);
+        g2d.setFont(g2d.getFont().deriveFont(fontSize));
         ToolBox.drawString(g2d, "%.0f/%.0f".formatted(getHp(), getHpMax()), hpValueLeftX, hpValueUpperY, BuildUp.textWidth);
         //g2d.dispose();
     }
@@ -206,9 +209,9 @@ class Enemy extends Actionable{
         defeatedText = "%s被%s成功击败了！太牛逼了吧！！！";
 
         try {
-            block = ImageIO.read(new File("material/Part2/Enemy block.png"));
-            hpBar = ImageIO.read(new File("material/Part2/Enemy hp.png"));
-            front = tk.getImage("material/Part2/enemy_front.gif");
+            block = ImageIO.read(ToolBox.res("Enemy block.png"));
+            hpBar = ImageIO.read(ToolBox.res("Enemy hp.png"));
+            front = tk.getImage(ToolBox.res("enemy_front.gif"));
             blockLeftX = 939;
             blockUpperY = 25;
             hpLeftX = 980;

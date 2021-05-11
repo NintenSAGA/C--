@@ -2,7 +2,6 @@ package part4;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 
 public class Ball extends Obj {
     static int radius = 40;         //显示半径
@@ -27,11 +26,9 @@ public class Ball extends Obj {
 
     static String[] typeS = {"可回收","其他","厨余","有害"}; //垃圾桶分类
 
-    File imageFIle = new File("material/Part4/lyf.png");
-
     public Ball(int type) {
         try {
-            image = ImageIO.read(imageFIle);
+            image = ImageIO.read(ToolBox.res("lyf.png"));
             cx = initX;
             cy = initY;
 

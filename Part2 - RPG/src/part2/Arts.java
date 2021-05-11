@@ -23,8 +23,8 @@ class Arts {
         this.damage = damage;
 
         try {
-            isSelected = ImageIO.read(new File("material/Part2/Arts is selected.png"));
-            notSelected = ImageIO.read(new File("material/Part2/Arts not selected.png"));
+            isSelected = ImageIO.read(ToolBox.res("Arts is selected.png"));
+            notSelected = ImageIO.read(ToolBox.res("Arts not selected.png"));
             blockLeftX = 830;
             blockUpperY = 631;
             nameLeftX = 910;

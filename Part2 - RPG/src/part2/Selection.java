@@ -13,10 +13,10 @@ public class Selection {
 
     public Selection() {
         try {
-            fightSelected = ImageIO.read(new File("material/Part2/Fight Selected.png"));
-            fightUnselected = ImageIO.read(new File("material/Part2/Fight Unselected.png"));
-            healSelected = ImageIO.read(new File("material/Part2/Heal Selected.png"));
-            healUnselected = ImageIO.read(new File("material/Part2/Heal Unselected.png"));
+            fightSelected = ImageIO.read(ToolBox.res("Fight Selected.png"));
+            fightUnselected = ImageIO.read(ToolBox.res("Fight Unselected.png"));
+            healSelected = ImageIO.read(ToolBox.res("Heal Selected.png"));
+            healUnselected = ImageIO.read(ToolBox.res("Heal Unselected.png"));
             fightLeftX = 991;
             fightUpperY = 512;
             healLeftX = 991;

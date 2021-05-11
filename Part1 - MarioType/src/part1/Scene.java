@@ -3,7 +3,9 @@ package part1;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +18,7 @@ class BackGround {
 
     public BackGround(int lx, int hy, double ratio) {
         try {
-            bg = ImageIO.read(new File("material/Part1/Background.png"));
+            bg = ImageIO.read(ToolBox.res("Background.png"));
             this.leftX = lx;
             this.upperY = hy;
             w = bg.getWidth();
@@ -52,19 +54,18 @@ class BackGround {
 }
 
 class SceneBuilder {
-    File levelData = new File("material/Part1/Level");
     static int row = 15, col;
     String[][] levelMap = new String[row][];
 
     public void levelLoader(String level) {
-
-        levelData = new File(level);
-
         try {
-            Scanner scan = new Scanner(levelData);
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(this.getClass().getResourceAsStream("/"+level),
+                            StandardCharsets.UTF_8)
+            );
 
             for (int i = 0;i < row;i++) {
-                String rowS = scan.nextLine();
+                String rowS = br.readLine();
                 levelMap[i] = rowS.split("\t");
                 col = levelMap[i].length;
             }

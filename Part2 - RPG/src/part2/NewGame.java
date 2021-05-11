@@ -14,7 +14,7 @@ public class NewGame {
 
     public static boolean runThis (JFrame frame) {
         BuildUp pro1 = new BuildUp(frame);
-        pro1.setUp("material/Part2/level_1");     //加载关卡文件
+        pro1.setUp("level_1.txt");     //加载关卡文件
         do {
             System.out.print("");
         } while (!pro1.exitSig);

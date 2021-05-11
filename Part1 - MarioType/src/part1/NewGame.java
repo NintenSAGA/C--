@@ -25,9 +25,9 @@ public class NewGame {
 
     public static boolean runThis (JFrame frame) {
         BuildUp pro1 = new BuildUp(frame);
-        pro1.setUp("material/Part1/Level");     //加载关卡文件
+        pro1.setUp("Level");     //加载关卡文件
         while (true){
-            System.out.println("");
+            System.out.print("");
             if (pro1.exitSig) {
                 return true;
             }

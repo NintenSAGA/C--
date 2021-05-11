@@ -3,7 +3,6 @@ package part1;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 class MovingObjects extends Obj {
@@ -116,8 +115,8 @@ class Human extends MovingObjects{
 
     ToolBox tb = new ToolBox(); //工具箱
 
-    String imagePlace = "material/Part1/Mario-0";
-    String imagePlaceHold = "material/Part1/MarioHold-0";
+    String imagePlace = "Mario-0";
+    String imagePlaceHold = "MarioHold-0";
 
     ArrayList<BufferedImage> framesHold = new ArrayList<>();
     ArrayList<BufferedImage> framesIdle = new ArrayList<>();
@@ -134,12 +133,8 @@ class Human extends MovingObjects{
         try {
 
             for (int i = 1;i <= 5;i++) {
-                File imageFile = new File(imagePlace+i+".png");
-                BufferedImage imageNow = ImageIO.read(imageFile);
-                framesIdle.add(imageNow);
-                imageFile = new File(imagePlaceHold+i+".png");
-                imageNow = ImageIO.read(imageFile);
-                framesHold.add(imageNow);
+                framesIdle.add(ImageIO.read(ToolBox.res(imagePlace+i+".png")));
+                framesHold.add(ImageIO.read(ToolBox.res(imagePlaceHold+i+".png")));
             }
             frames = framesIdle;
 
@@ -308,7 +303,7 @@ class Human extends MovingObjects{
 
 //敌人
 class Enemy extends MovingObjects{
-    String imagePlace = "material/Part1/Enemy.png";
+    String imagePlace = "Enemy.png";
     int tileGap = 1;
     static int code =  130;
     int vxInitial = 2;
@@ -317,7 +312,7 @@ class Enemy extends MovingObjects{
         try {
             actionFrNum = 2;
 
-            BufferedImage image = ImageIO.read(new File(imagePlace));
+            BufferedImage image = ImageIO.read(ToolBox.res(imagePlace));
             h = image.getHeight();
             w = h;
             direction = 1;

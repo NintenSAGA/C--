@@ -3,11 +3,11 @@ package part3;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class ToolBox {
     BuildUp bu;
@@ -23,13 +23,15 @@ public class ToolBox {
         boolean stageWriting = false;
         Stage stage = new Stage();
         try {
-            Scanner scanner = new Scanner(new File(bu.level));
-            String bg = scanner.nextLine().split("\\|")[1]; //加载背景
-            String[] nameList = Arrays.copyOfRange(scanner.next().split("\\|"), 1, 4); //加载人名
-            String[] materialList = scanner.next().split("\\|");
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(this.getClass().getResourceAsStream("/"+bu.level),
+                            StandardCharsets.UTF_8)
+            );
+            String bg = br.readLine().split("\\|")[1]; //加载背景
+            String[] nameList = Arrays.copyOfRange(br.readLine().split("\\|"), 1, 4); //加载人名
+            String[] materialList = br.readLine().split("\\|");
             ArrayList<Stage> stageList = new ArrayList<>();
-            while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
+            while ((line = br.readLine()) != null) {
                 if (line.startsWith("#")) continue;
                 if (line.equals("\n")) continue;
                 String[] words = line.split("\\|");
@@ -145,5 +147,7 @@ public class ToolBox {
         if (runnable != null) runnable.run();
     }
 
-
+    public static URL res(String file) {
+        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+    }
 }

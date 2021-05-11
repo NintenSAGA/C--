@@ -3,7 +3,6 @@ package part1;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 class Tile extends Obj {
@@ -24,12 +23,10 @@ class Tile extends Obj {
     boolean itemSpecial;
     boolean groundSpecial;
 
-    File tileset = new File("material/Part1/Tileset.png");
-
     public Tile(int type, int leftX, int upperY) {
         try {
             if (image == null) {
-                image = ImageIO.read(tileset);
+                image = ImageIO.read(ToolBox.res("Tileset.png"));
             }
 
             cropImage = cropImageLoader(type);

@@ -2,8 +2,6 @@ package part4;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.io.File;
 
 class Shooter extends Obj {
     double angle = 0;
@@ -14,11 +12,9 @@ class Shooter extends Obj {
     int direction = 0;
     BuildUp bu;
 
-    File imageFIle = new File("material/Part4/lyf.png");
-
     public Shooter(int bornX, int bornY, BuildUp bu) {
         try {
-            image = ImageIO.read(imageFIle);
+            image = ImageIO.read(ToolBox.res("lyf.png"));
             cx = bornX;
             cy = bornY;
             rX = (double) cx;

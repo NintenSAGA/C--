@@ -25,6 +25,7 @@ public class Scene {
     BufferedImage bg1;
 
     Scanner scanner;
+    static Font font;
 
     ArrayList<String> intro = new ArrayList<>();
 
@@ -57,8 +58,8 @@ public class Scene {
         intro.add("%s该怎么办？".formatted(player.getName()));
 
         try {
-            textBlock = ImageIO.read(new File("material/Part2/Text field.png"));
-            bg1 = ImageIO.read(new File("material/Part2/bg1.png"));
+            textBlock = ImageIO.read(ToolBox.res("Text field.png"));
+            bg1 = ImageIO.read(ToolBox.res("bg1.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }

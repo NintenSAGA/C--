@@ -3,9 +3,14 @@ package part2;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ToolBox {
@@ -18,47 +23,48 @@ public class ToolBox {
 
     public void levelLoadIn() {
         String line;
-        String name = null;
         Player player = null;
         Enemy enemy = null;
-        double hp = 0;
         ArrayList<Arts> artsList;
         try {
-            Scanner scanner = new Scanner(new File(bu.level));
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(this.getClass().getResourceAsStream("/"+bu.level),
+                            StandardCharsets.UTF_8)
+            );
             String[] info;
             //Load in the player
             do {
-                line = scanner.nextLine();
+                line = br.readLine();
             } while (!line.startsWith("Player|"));
             info = line.split("\\|");
             artsList = new ArrayList<>();
-            line = scanner.nextLine();
+            line = br.readLine();
             do {
                 if (line.startsWith("#") || line.startsWith("Arts")) {
-                    line = scanner.nextLine();
+                    line = br.readLine();
                     continue;
                 }
                 String[] data = line.split("\\|");
                 artsList.add(new Arts(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2]), data[3]));
-                line = scanner.nextLine();
+                line = br.readLine();
             } while (!line.equals("END_OF_PLAYER"));
             player = new Player(info[1], Double.parseDouble(info[2]), artsList);
 
             //Load in the enemy
             do {
-                line = scanner.nextLine();
+                line = br.readLine();
             } while (!line.startsWith("Enemy|"));
             info = line.split("\\|");
             artsList = new ArrayList<>();
-            line = scanner.nextLine();
+            line = br.readLine();
             do {
                 if (line.startsWith("#") || line.startsWith("Arts")) {
-                    line = scanner.nextLine();
+                    line = br.readLine();
                     continue;
                 }
                 String[] data = line.split("\\|");
                 artsList.add(new Arts(data[0], Integer.parseInt(data[1])));
-                line = scanner.nextLine();
+                line = br.readLine();
             } while (!line.equals("END_OF_ENEMY"));
             enemy = new Enemy(info[1], Double.parseDouble(info[2]), artsList);
 
@@ -187,6 +193,10 @@ public class ToolBox {
 
     public void keyTransit(char key) {
         keyMap.get(key).run();
+    }
+
+    public static URL res(String file) {
+        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
     }
 
 

@@ -1,10 +1,8 @@
 package part3;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
 
 public class Scene {
@@ -38,7 +36,6 @@ public class Scene {
     String self;
     String oppo;
     String bg;
-    String filePlace;
 
     String name;
     String[] nameList;
@@ -82,22 +79,21 @@ public class Scene {
         this.stageList = stageList;
         this.stageI = stageList.iterator();
         this.nameList = nameList;
-        this.filePlace = "material/Part3/";
         this.self = materialList[1];
         this.oppo = materialList[2];
         this.bg = materialList[3];
-        this.gc = new GameCharacter(this.self, this.oppo, this.bg, this.filePlace);
+        this.gc = new GameCharacter(this.self, this.oppo, this.bg);
 
         try {
-            textArea = ImageIO.read(new File("material/Part3/TextArea.png"));
-            objection = ImageIO.read(new File("material/Part3/objection.png"));
-            bg_center = ImageIO.read(new File(filePlace+bg+"_center.png"));
-            success = ImageIO.read(new File("material/Part3/success.png"));
-            A_backward = ImageIO.read(new File("material/Part3/A_backward.png"));
-            D_forward = ImageIO.read(new File("material/Part3/D_forward.png"));
-            W_objection = ImageIO.read(new File("material/Part3/W_objection.png"));
-            left_arrow = ImageIO.read(new File("material/Part3/left_arrow.png"));
-            right_arrow = ImageIO.read(new File("material/Part3/right_arrow.png"));
+            textArea = ImageIO.read(ToolBox.res("TextArea.png"));
+            objection = ImageIO.read(ToolBox.res("objection.png"));
+            bg_center = ImageIO.read(ToolBox.res(bg+"_center.png"));
+            success = ImageIO.read(ToolBox.res("success.png"));
+            A_backward = ImageIO.read(ToolBox.res("A_backward.png"));
+            D_forward = ImageIO.read(ToolBox.res("D_forward.png"));
+            W_objection = ImageIO.read(ToolBox.res("W_objection.png"));
+            left_arrow = ImageIO.read(ToolBox.res("left_arrow.png"));
+            right_arrow = ImageIO.read(ToolBox.res("right_arrow.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -307,19 +303,19 @@ class GameCharacter {
     HashMap<String, BufferedImage> imageMap = new HashMap<>();
 
 
-    public GameCharacter(String self, String oppo, String bg, String filePlace) {
+    public GameCharacter(String self, String oppo, String bg) {
         try {
-            self_speak = ImageIO.read(new File(filePlace+self+"_speak.png"));
-            self_think = ImageIO.read(new File(filePlace+self+"_think.png"));
-            self_awkward = ImageIO.read(new File(filePlace+self+"_awkward.png"));
+            self_speak = ImageIO.read(ToolBox.res(self+"_speak.png"));
+            self_think = ImageIO.read(ToolBox.res(self+"_think.png"));
+            self_awkward = ImageIO.read(ToolBox.res(self+"_awkward.png"));
 
-            oppo_speak = ImageIO.read(new File(filePlace+oppo+"_speak.png"));
-            oppo_surprise = ImageIO.read(new File(filePlace+oppo+"_surprise.png"));
-            oppo_questioned = ImageIO.read(new File(filePlace+oppo+"_questioned.png"));
-            oppo_counter = ImageIO.read(new File(filePlace+oppo+"_counter.png"));
+            oppo_speak = ImageIO.read(ToolBox.res(oppo+"_speak.png"));
+            oppo_surprise = ImageIO.read(ToolBox.res(oppo+"_surprise.png"));
+            oppo_questioned = ImageIO.read(ToolBox.res(oppo+"_questioned.png"));
+            oppo_counter = ImageIO.read(ToolBox.res(oppo+"_counter.png"));
 
-            bg_left = ImageIO.read(new File(filePlace+bg+"_left.png"));
-            bg_right = ImageIO.read(new File(filePlace+bg+"_right.png"));
+            bg_left = ImageIO.read(ToolBox.res(bg+"_left.png"));
+            bg_right = ImageIO.read(ToolBox.res(bg+"_right.png"));
 
             imageMap.put("Q0", self_speak);
             imageMap.put("A0", oppo_speak);

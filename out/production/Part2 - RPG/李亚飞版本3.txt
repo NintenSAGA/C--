@@ -1,0 +1,31 @@
+Boss：
+名字：
+    珂弥竘·弗缪勒（化学方程式的中文音）
+血量：
+    30
+技能：
+    C2H8N2+2N2O4==点燃==2CO2↑+3N2↑+4H2O  3
+    BaCO3+2HNO3====Ba(NO3)2+CO2↑+H2O  3
+    Cu2(OH)2CO3==加热==2CuO+H2O+CO2  3
+    Na2CO4+SO2+O2====Na2SO4+CO2↑  3
+    K2CO3+SO2+O2====K2SO3+CO2↑  3
+    3C+2Fe2O3 ==== 4Fe+3CO2↑  3
+    CaCO3====CO2↑+CaO  3
+    C+O2==点燃==CO2  3
+    
+
+
+勇者：
+血量：
+    20
+技能：
+    CO2+H2O+Na2SiO3====Na2CO3+H2SiO3  5*2
+    CO2+Ca(OH)2====CaCO3↓+H2O  5*2
+    2CO2+6H2==加热==C2H4+4H2O  4*2
+    CO2+3H2==加热==CH3OH+H2O  4*2
+    NaOH+CO2====NaHCO3  4*1.5
+    2Mg+CO2==点燃==2MgO+C  2.5*2
+    CO2+H2O==== H2CO3  2*2
+    CH4+CO2====2CO+2H2  2*0.5
+    C+CO2====CO  2*0
+

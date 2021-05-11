@@ -34,6 +34,8 @@ class BuildUp {
     boolean fadeIn;
     boolean fadeOut;
 
+    Font font;
+
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
                 this.loop();            //参数更新
@@ -42,6 +44,12 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/STHeiti Light.ttc"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void setUp(String level) {
@@ -79,7 +87,7 @@ class BuildUp {
 
             Graphics2D g2d = (Graphics2D) g;
 
-
+            g2d.setFont(font.deriveFont(fontSize));
             sceneNow.printBG(g2d);
             if (!fadeIn) sceneNow.printText(g2d);
             if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());

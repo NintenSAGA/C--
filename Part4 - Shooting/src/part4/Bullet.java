@@ -2,7 +2,6 @@ package part4;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 
 class Bullet extends Obj {
     double radiant;     //偏转角
@@ -13,11 +12,9 @@ class Bullet extends Obj {
     int type;           //垃圾类型
     String name;        //垃圾名字
 
-    File imageFIle = new File("material/Part4/lyflove.png");
-
     public Bullet(int type, String name) {
         try {
-            image = ImageIO.read(imageFIle);
+            image = ImageIO.read(ToolBox.res("lyflove.png"));
 
             this.type = type;
             this.name = name;

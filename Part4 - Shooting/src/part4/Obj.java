@@ -1,7 +1,6 @@
 package part4;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 abstract class Obj {

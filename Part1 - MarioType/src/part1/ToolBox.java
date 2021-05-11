@@ -3,7 +3,9 @@ package part1;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 class ToolBox {
 
@@ -236,5 +238,9 @@ class ToolBox {
                 bgs.add(0, new BackGround((bgs.get(0).leftX -bgs.get(1).w), 0, bgs.get(1).ratio));
             }
         }
+    }
+
+    public static URL res(String file) {
+        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
     }
 }

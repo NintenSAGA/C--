@@ -14,11 +14,11 @@ public class NewGame {
 
     public static boolean runThis (JFrame frame) {
         BuildUp pro1 = new BuildUp(frame);
-        pro1.setUp("material/Part3/Scene_1");     //加载关卡文件
+        pro1.setUp("Scene_1");     //加载关卡文件
         do {
             System.out.print("");
         } while (!pro1.exitSig);
-        pro1.setUp("material/Part3/Scene_2");
+        pro1.setUp("Scene_2");
         do {
             System.out.print("");
         } while (!pro1.exitSig);

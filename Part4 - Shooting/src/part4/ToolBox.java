@@ -2,9 +2,15 @@ package part4;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -20,7 +26,11 @@ class ToolBox {
 
     public void garbageLoadIn(String filePlace) {
         try {
-            Stream<String> line = Files.lines(Paths.get(filePlace));
+            Stream<String> line =
+                    new BufferedReader(
+                            new InputStreamReader(this.getClass().getResourceAsStream("/"+filePlace),
+                                    StandardCharsets.UTF_8)
+                    ).lines();
             bu.unShotList = (ArrayList<Bullet>) line
                     .map(t -> t.split("\t"))
                     .map(t -> new Bullet(Integer.parseInt(t[0]), t[1]))
@@ -135,5 +145,9 @@ class ToolBox {
     public boolean outOfRangeDetect(Bullet a) {
         return a.cx < -a.w / 2 || a.cx > BuildUp.width + a.w / 2 ||
                 a.cy < -a.h / 2 || a.cy > BuildUp.height + a.h / 2;
+    }
+
+    public static URL res(String file) {
+        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
     }
 }
