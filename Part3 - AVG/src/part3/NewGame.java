@@ -19,6 +19,7 @@ public class NewGame {
             System.out.print("");
         } while (!pro1.exitSig);
         pro1.setUp("Scene_2");
+        System.out.println(pro1.exitSig);
         do {
             System.out.print("");
         } while (!pro1.exitSig);

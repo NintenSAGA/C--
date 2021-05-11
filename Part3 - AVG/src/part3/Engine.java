@@ -46,7 +46,7 @@ class BuildUp {
         this.frame = frame;
 
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/STHeiti Light.ttc"));
+            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -56,6 +56,7 @@ class BuildUp {
         this.level = level;
         this.tb = new ToolBox(this);
         this.sceneList = new ArrayList<>();
+        exitSig = false;
 
         tb.levelLoadIn();
         sceneNow = sceneList.get(0);
@@ -87,7 +88,7 @@ class BuildUp {
 
             Graphics2D g2d = (Graphics2D) g;
 
-            g2d.setFont(font.deriveFont(fontSize));
+            g2d.setFont(font.deriveFont(Font.BOLD, fontSize));
             sceneNow.printBG(g2d);
             if (!fadeIn) sceneNow.printText(g2d);
             if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());

@@ -45,7 +45,7 @@ class BuildUp {
     public BuildUp(JFrame frame) {
         this.frame = frame;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/STHeiti Light.ttc"));
+            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -58,6 +58,7 @@ class BuildUp {
         fadeIn = true;
         oV = 0;
         fadeOut = false;
+        exitSig = false;
 
         tb.levelLoadIn();
         scene = new Scene(tb, enemy, player);
@@ -86,7 +87,7 @@ class BuildUp {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setFont(font.deriveFont(fontSize));
+            g2d.setFont(font.deriveFont(Font.BOLD, fontSize));
             scene.drawTheScene(g2d);
             if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
         }
