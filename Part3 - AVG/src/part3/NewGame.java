@@ -23,6 +23,11 @@ public class NewGame {
         do {
             System.out.print("");
         } while (!pro1.exitSig);
+        pro1.setUp("Scene_3");
+        System.out.println(pro1.exitSig);
+        do {
+            System.out.print("");
+        } while (!pro1.exitSig);
         return true;
     }
 }

@@ -23,6 +23,7 @@ public class Scene {
 
     BufferedImage textBlock;
     BufferedImage bg1;
+    BufferedImage instruction1, instruction2;
 
     Scanner scanner;
     static Font font;
@@ -60,6 +61,8 @@ public class Scene {
         try {
             textBlock = ImageIO.read(ToolBox.res("Text field.png"));
             bg1 = ImageIO.read(ToolBox.res("bg1.png"));
+            instruction1 = ImageIO.read(ToolBox.res("Instruction21.png"));
+            instruction2 = ImageIO.read(ToolBox.res("Instruction22.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,6 +98,8 @@ public class Scene {
             //ToolBox.drawString(g2d, player.artsList.get(index).getDetail(), 200, 150, BuildUp.textWidth);
             if (mode.endsWith("I")) printText(g2d);
         }
+
+        g2d.drawImage(mode.startsWith("SA1") ? instruction2 : instruction1, 0, 0, null);
 
         g2d.dispose();
     }

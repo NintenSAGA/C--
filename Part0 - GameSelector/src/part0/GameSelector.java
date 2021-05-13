@@ -19,6 +19,7 @@ public class GameSelector {
     int fps = 60;
 
     BufferedImage bg0, Selections, Info, StageSelectLogo;
+    BufferedImage instruction1, instruction2;
 
     ArrayList<Stage> stageList;
     int[][] selectPanel = {{0, 2, 0}, {1, 5, 3}, {0, 4, 0}};
@@ -28,8 +29,16 @@ public class GameSelector {
 
     SelectPanel sp;
 
+    float opacity;
+    float maxOpacity = 1.0F;
+    float oV;
+    float oA = 0.001F;
+    boolean fadeIn;
+    boolean fadeOut;
+
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {         //参数更新
+                this.loop();
                 sp.repaint();      //渲染更新
             });
 
@@ -53,6 +62,8 @@ public class GameSelector {
             Selections = ImageIO.read(ToolBox.res("Selections.png"));
             Info = ImageIO.read(ToolBox.res("Info.png"));
             StageSelectLogo = ImageIO.read(ToolBox.res("StageSelectLogo.png"));
+            instruction1 = ImageIO.read(ToolBox.res("Instruction01.png"));
+            instruction2 = ImageIO.read(ToolBox.res("Instruction02.png"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -61,6 +72,11 @@ public class GameSelector {
     public void selectPanel() {
         phase = 0;
         f = new int[]{1, 1};
+
+        opacity = maxOpacity;
+        fadeIn = true;
+        oV = 0;
+        fadeOut = false;
 
         for (int i = 1; i <= 5; i++) {
             if (process[i-1]) stageList.get(i-1).setCleared();
@@ -71,6 +87,10 @@ public class GameSelector {
 
         timer.start();
 
+    }
+
+    public void loop() {
+        fadeUpdate();
     }
 
     class SelectPanel extends JPanel {
@@ -88,12 +108,15 @@ public class GameSelector {
                     g2d.drawImage(StageSelectLogo, 71, 40, null);
                     g2d.drawImage(Selections, 0,  0, null);
                     for (Stage stage:stageList) stage.drawYourself(selectPanel[f[0]][f[1]], g2d);
+                    g2d.drawImage(stageList.get(selectPanel[f[0]][f[1]]-1).isAvailable ? instruction2 : instruction1,
+                            0 ,0 ,null);
                 }
                 case 1 -> {
                     g2d.drawImage(Info, 0, 0, null);
                 }
             }
 
+            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
         }
     }
 
@@ -123,7 +146,31 @@ public class GameSelector {
     }
 
     public void confirm() {
-        if (phase == 0 && selectPanel[f[0]][f[1]] != 5) phase = 1;
-        else if (phase == 1) enterTheGame();
+        if (phase == 0 && stageList.get(selectPanel[f[0]][f[1]]-1).isAvailable) phase = 1;
+        else if (phase == 1) fadeOut = true;
+    }
+
+    public void blackScreen(Graphics2D g2d) {
+        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
+        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, width, height);
+        g2d.dispose();
+    }
+
+    public void fadeUpdate() {
+        if (fadeIn) {
+            oV += oA;
+            opacity -= oV;
+            if (opacity <= 0) {
+                oV = 0;
+                fadeIn = false;
+            }
+        }
+        if (fadeOut) {
+            oV += oA;
+            opacity += oV;
+            if (opacity >= maxOpacity) enterTheGame();
+        }
     }
 }

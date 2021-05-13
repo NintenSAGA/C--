@@ -1,8 +1,10 @@
 package part1;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
@@ -26,12 +28,22 @@ class BuildUp {
     int levelGround = 40*(14)+offSetY;            //设定地面高度
     ArrayList<BackGround> bgs; //存储背景图片
 
-    int bornX = width/2, bornY = levelGround;   //设定出生位置
+    int bornX = width/2, bornY = levelGround-75;   //设定出生位置
 
     Human hm;                               //建立人物
     ArrayList<Tile> tileList;               //瓷砖列表
     ArrayList<MovingObjects> creatureList;  //生物列表
     ArrayList<Item> itemList;               //道具列表
+
+    BufferedImage instruction1, instruction2;
+    Font font;
+
+    float opacity;
+    float maxOpacity = 1.0F;
+    float oV;
+    float oA = 0.001F;
+    boolean fadeIn;
+    boolean fadeOut;
 
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
@@ -41,6 +53,14 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+
+        try {
+            instruction1 = ImageIO.read(ToolBox.res("Instruction11.png"));
+            instruction2 = ImageIO.read(ToolBox.res("Instruction12.png"));
+            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void setUp(String level) {
@@ -66,6 +86,11 @@ class BuildUp {
         SceneBuilder sB = new SceneBuilder();
         sB.ObjLoader(this, level);
 
+        opacity = maxOpacity;
+        fadeIn = true;
+        oV = 0;
+        fadeOut = false;
+
         frame.add(display);
         frame.setVisible(true);
 
@@ -77,6 +102,7 @@ class BuildUp {
     }
 
     public void loop() {
+        fadeUpdate();
 
         hm.update(tileList, creatureList, itemList);
 
@@ -91,7 +117,7 @@ class BuildUp {
         itemList.forEach(i -> i.refresh(hm));
 
         if (groundSum == 0) {
-            gameSet();          //全部栽种完毕后通关
+            fadeOut = true;          //全部栽种完毕后通关
         }
 
     }
@@ -124,6 +150,38 @@ class BuildUp {
             //只渲染仍在显示的
 
             hm.printCh(g2d);
+
+            g2d.drawImage(hm.itemHoldKey ? instruction2 : instruction1, 0, 0, null);
+
+            g2d.setFont(font.deriveFont(Font.BOLD, 25F));
+            g2d.setColor(Color.white);
+            g2d.drawString("剩余空地：%d处".formatted(groundSum), 1000, 42+25);
+
+            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
+        }
+    }
+
+    public void blackScreen(Graphics2D g2d) {
+        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
+        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, width, height);
+        g2d.dispose();
+    }
+
+    public void fadeUpdate() {
+        if (fadeIn) {
+            oV += oA;
+            opacity -= oV;
+            if (opacity <= 0) {
+                oV = 0;
+                fadeIn = false;
+            }
+        }
+        if (fadeOut) {
+            oV += oA;
+            opacity += oV;
+            if (opacity >= maxOpacity) gameSet();
         }
     }
 }

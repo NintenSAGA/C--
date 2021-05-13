@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 class ToolBox {
-    int genCoolDown = (2*Ball.radius)/Ball.vx; //新球生成冷却时间
+    int genCoolDown = (Ball.radius*2)/Ball.vx; //新球生成冷却时间
     int genCount = genCoolDown;
     BuildUp bu;
 

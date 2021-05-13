@@ -1,8 +1,10 @@
 package part4;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -15,7 +17,7 @@ class BuildUp {
     static int width = 1280, height = 720;       //设定画面宽高
     int bornX = width/2, bornY = height*4/5;
 
-    JFrame frame = new JFrame();
+    JFrame frame;
     Display display = new Display();
 
     int fps = 60;                               //设定每秒帧数
@@ -27,21 +29,38 @@ class BuildUp {
     ArrayList<Bullet> unShotList;   //未发射子弹
     ArrayList<Ball> unGenBallList;  //未生成球
 
+    float opacity;
+    float maxOpacity = 1.0F;
+    float oV;
+    float oA = 0.001F;
+    boolean fadeIn;
+    boolean fadeOut;
+
+    BufferedImage instruction1, instruction2;
+    BufferedImage bg, tube;
+
+    Font font;
+    static final float fontSize = 40.0F;
+
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
                 this.loop();            //参数更新
                 display.repaint();      //渲染更新
             });
 
-//    public BuildUp(String level) {
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(width, height);
-//        frame.setResizable(false);
-//        this.level = level;
-//    }
-
     public BuildUp(JFrame frame) {
         this.frame = frame;
+
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT,
+                    this.getClass().getResourceAsStream("/font.TTF"));
+            instruction1 = ImageIO.read(ToolBox.res("Instruction41.png"));
+            instruction2 = ImageIO.read(ToolBox.res("Instruction42.png"));
+            bg = ImageIO.read(ToolBox.res("bg.png"));
+            tube = ImageIO.read(ToolBox.res("tube.png"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }   //构造函数
 
     public void setUp(String level) {                   //新游戏构建
@@ -57,6 +76,11 @@ class BuildUp {
         tb.garbageLoadIn(level);                        //加载垃圾
         Collections.shuffle(unShotList);                //乱序排列
         Collections.shuffle(unGenBallList);             //乱序排列
+
+        opacity = maxOpacity;
+        fadeIn = true;
+        oV = 0;
+        fadeOut = false;
 
         frame.add(display);
         frame.setVisible(true);
@@ -93,7 +117,9 @@ class BuildUp {
 
         st.update();        //更新射手
 
-        if (unShotList.isEmpty()) gameSet();
+        if (unShotList.isEmpty()) fadeOut = true;
+
+        fadeUpdate();
     }
 
     public void gameSet() {
@@ -118,13 +144,47 @@ class BuildUp {
             //Print out the background
 
             Graphics2D g2d = (Graphics2D) g;
+            g2d.setFont(font.deriveFont(Font.BOLD,fontSize));
+
+            g2d.drawImage(bg, 0, 0, null);
+
+            st.printThis(g2d);
 
             ballList.forEach(bl -> bl.printThis(g2d));
 
             btList.forEach(bt -> bt.printThis(g2d));
 
-            st.printThis(g2d);
+            g2d.drawImage(btList.isEmpty() ? instruction2 : instruction1,
+                    0, 0, null);
 
+            g2d.drawImage(tube, 0, 0, null);
+
+            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
+
+        }
+    }
+
+    public void blackScreen(Graphics2D g2d) {
+        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
+        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, width, height);
+        g2d.dispose();
+    }
+
+    public void fadeUpdate() {
+        if (fadeIn) {
+            oV += oA;
+            opacity -= oV;
+            if (opacity <= 0) {
+                oV = 0;
+                fadeIn = false;
+            }
+        }
+        if (fadeOut) {
+            oV += oA;
+            opacity += oV;
+            if (opacity >= maxOpacity) gameSet();
         }
     }
 }

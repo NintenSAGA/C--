@@ -143,7 +143,7 @@ class Human extends MovingObjects{
             h = ch.getHeight();
             //加载图片，获取设置宽高
 
-            double zoom = (double) 60/h; //图像缩放
+            double zoom = (double) 75/h; //图像缩放
             w *= zoom;
             h *= zoom;
 
@@ -176,8 +176,8 @@ class Human extends MovingObjects{
         if (direction != 0) pw = w*(-direction);   //无方向输入时不改变朝向
 
         if (itemHoldKey) {
-            if (pw > 0) g.drawImage(itemHold.cropImage, leftX-w, upperY + h/5, itemHold.w, itemHold.h, null);
-            else g.drawImage(itemHold.cropImage, leftX+(2*w-itemHold.w), upperY + h/5, itemHold.w, itemHold.h, null);
+            if (pw > 0) g.drawImage(itemHold.cropImage, leftX-w+w/3, upperY + h/5, itemHold.w, itemHold.h, null);
+            else g.drawImage(itemHold.cropImage, leftX+(2*w-itemHold.w)-w/3, upperY + h/5, itemHold.w, itemHold.h, null);
         }
 
         if (pw > 0) g.drawImage(ch, leftX, upperY, pw, h, null);   //朝向右侧
@@ -304,7 +304,7 @@ class Human extends MovingObjects{
 //敌人
 class Enemy extends MovingObjects{
     String imagePlace = "Enemy.png";
-    int tileGap = 1;
+    int tileGap = 10;
     static int code =  130;
     int vxInitial = 2;
 

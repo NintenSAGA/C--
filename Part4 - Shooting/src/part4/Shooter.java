@@ -14,13 +14,13 @@ class Shooter extends Obj {
 
     public Shooter(int bornX, int bornY, BuildUp bu) {
         try {
-            image = ImageIO.read(ToolBox.res("lyf.png"));
-            cx = bornX;
-            cy = bornY;
-            rX = (double) cx;
-            rY = (double) cy;
+            image = ImageIO.read(ToolBox.res("shooter.png"));
             w = image.getWidth();
             h = image.getHeight();
+            cx = 590+50;
+            cy = 470+50;
+            rX = (double) cx;
+            rY = (double) cy;
 
             double ratio = (double)100/w;
             w *= ratio;
@@ -32,18 +32,24 @@ class Shooter extends Obj {
         }
     }
 
-    public void printThis(Graphics2D g) {
+    public void printThis(Graphics2D g2d) {
+
+        Graphics2D g = (Graphics2D) g2d.create();
         g.rotate((angle/180)*Math.PI, rX, rY);
-        int leftX = cx - w/2;
-        int upperY = cy - h/2;
+        int leftX = 590;
+        int upperY = 470;
+        g.setColor(Color.decode("#88AEFF"));
+        g.drawLine(cx, cy, cx+1000, cy);
         g.drawImage(image, leftX, upperY, w, h, null);
-        g.setColor(Color.MAGENTA);
-        g.drawLine(cx, cy, leftX+1000, upperY);
-        g.rotate(-(angle/180)*Math.PI, rX, rY);
+        g.dispose();
 
         if (bu.unShotList.size() != 0) {
+            g = (Graphics2D) g2d.create();
             g.setColor(Color.white);
-            g.drawString(bu.unShotList.get(0).name, cx-w/2, cy);
+            g.drawString(bu.unShotList.get(0).name,
+                    640-((float)bu.unShotList.get(0).name.length()/2)*BuildUp.fontSize,
+                    591+BuildUp.fontSize);
+            g.dispose();
         }
     }
 

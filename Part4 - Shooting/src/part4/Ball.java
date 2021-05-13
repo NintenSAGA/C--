@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 
 public class Ball extends Obj {
-    static int radius = 40;         //显示半径
+    static int radius = 30;         //显示半径
     static int vx = 1;              //水平运动速度
     int vr = 180*vx/(int)(Math.PI*radius);      //旋转角速度
     double angle;
@@ -28,7 +28,7 @@ public class Ball extends Obj {
 
     public Ball(int type) {
         try {
-            image = ImageIO.read(ToolBox.res("lyf.png"));
+            image = ImageIO.read(ToolBox.res("bin"+type+".png"));
             cx = initX;
             cy = initY;
 
@@ -77,8 +77,8 @@ public class Ball extends Obj {
     public void printThis(Graphics2D g) {
         //g.rotate((part4.Shooter.angle/180)*Math.PI, cx, cy);
         super.printThis(g);
-        g.setColor(Color.white);
-        g.drawString(typeS[type-1], cx-w/2, cy);    //显示垃圾桶类型（临时）
+        //g.setColor(Color.white);
+        //g.drawString(typeS[type-1], cx-w/2, cy);    //显示垃圾桶类型（临时）
         //g.rotate(-(part4.Shooter.angle/180)*Math.PI, cx, cy);
     }
 

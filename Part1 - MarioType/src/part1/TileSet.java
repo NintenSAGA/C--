@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 class Tile extends Obj {
     static BufferedImage image = null;
-    static int tileGap = 1;
+    static int tileGap = 10;
     static int BlockLength = 40;
     static int row = 8, col = 16;
 
@@ -44,8 +44,8 @@ class Tile extends Obj {
     }
 
     public static BufferedImage cropImageLoader(int type) {
-        int sinW = 16;
-        int sinH = 16;
+        int sinW = 160;
+        int sinH = 160;
 
         int typeX = tileGap+(sinW+tileGap)*(type%col - 1);
         int typeY = tileGap+(sinH+tileGap)*(type/col);

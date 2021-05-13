@@ -2,9 +2,6 @@
   <artifact type="jar" name="Game_Project_202104:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Game_Project_202104_jar</output-path>
     <root id="archive" name="Game_Project_202104.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/Part4 - Shooting/src/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="Game_Project_202104" />
       <element id="module-output" name="Part0 - GameSelector" />
       <element id="module-output" name="Part1 - MarioType" />
