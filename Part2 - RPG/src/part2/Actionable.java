@@ -158,8 +158,10 @@ class Player extends Actionable{
         try {
             block = ImageIO.read(ToolBox.res("Player block.png"));
             hpBar = ImageIO.read(ToolBox.res("Player hp.png"));
-            front = tk.getImage(ToolBox.res("player_front.gif"));
-            back = tk.getImage(ToolBox.res("player_back.gif"));
+            //front = tk.getImage(ToolBox.res("player_front.gif"));
+            //back = tk.getImage(ToolBox.res("player_back.gif"));
+            back = ImageIO.read(ToolBox.res("player_back.png"));
+            front = ImageIO.read(ToolBox.res("player_front.png"));
             blockLeftX = 0;
             blockUpperY = 500;
             hpLeftX = 14;
@@ -204,14 +206,17 @@ class Player extends Actionable{
 }
 
 class Enemy extends Actionable{
-    public Enemy(String name, double hp, ArrayList<Arts> artsList) {
+    public int code;
+
+    public Enemy(String name, double hp, ArrayList<Arts> artsList, int code) {
         super(name, hp, artsList);
         defeatedText = "%s被%s成功击败了！太牛逼了吧！！！";
+        this.code = code;
 
         try {
             block = ImageIO.read(ToolBox.res("Enemy block.png"));
             hpBar = ImageIO.read(ToolBox.res("Enemy hp.png"));
-            front = tk.getImage(ToolBox.res("enemy_front.gif"));
+            front = ImageIO.read(ToolBox.res("enemy"+code+"_front.png"));
             blockLeftX = 939;
             blockUpperY = 25;
             hpLeftX = 980;
@@ -236,7 +241,10 @@ class Enemy extends Actionable{
 
     public void drawFront(Graphics2D g2d, int type) {
         switch (type) {
-            case 0 -> g2d.drawImage(front, 131, 109, 1070, 822, null);
+            case 0 -> {
+                if(code == 3) g2d.drawImage(front, 131, -200, 1070, 822, null);
+                else g2d.drawImage(front, 131, 50, 1070, 822, null);
+            }
             case 1 -> g2d.drawImage(front, 756, 119, 304, 234, null);
         }
     }

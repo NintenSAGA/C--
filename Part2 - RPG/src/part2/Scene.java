@@ -3,7 +3,6 @@ package part2;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
 
 public class Scene {
@@ -114,7 +113,6 @@ public class Scene {
 
     public void update() {
         textReload();
-
     }
 
     public void printText(Graphics2D g2d) {
@@ -166,7 +164,7 @@ public class Scene {
                 }
 
                 case "SA1I" -> {
-                    modeShift("SA1", false);
+                    modeShift("SA1");
                     nextText();
                 }
             }
@@ -206,7 +204,7 @@ public class Scene {
 
     public void showInfo() {
         if (mode.equals("SA1")) {
-            modeShift("SA1I", false);
+            modeShift("SA1I");
             textAppend(player.getSelectedArt(aIndex, sIndex).getDetail());
             readNext();
         } else if (mode.equals("SA1I")) {
@@ -216,20 +214,6 @@ public class Scene {
 
     public void modeShift(String mode) {
         this.mode = mode;
-    }
-
-    public void modeShift(String mode, boolean reset) {
-        this.mode = mode;
-    }
-
-    public void triumphJudgement() {
-        if (enemy.isDefeated()) {
-            modeShift("T");
-        } else if (player.isDefeated()) {
-            modeShift("F");
-        } else {
-            modeShift("S");
-        }
     }
 
     public void textReload() {

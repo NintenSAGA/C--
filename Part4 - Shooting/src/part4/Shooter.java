@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 
 class Shooter extends Obj {
-    double angle = 0;
+    double angle = -90;
     double vrMax = 4;
     double ar = 1;
     double vr;

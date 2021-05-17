@@ -23,7 +23,7 @@ public class NewGame {
             if (gs.loadKey) {
                 gs.frame.getContentPane().removeAll();  //清楚上一轮留下的构件
                 gs.process[Integer.parseInt(gs.choice)-1] = map.get(gs.choice).apply(gs.frame);    //进入相应关卡
-                gs.selectPanel();   //重新加载图形界面
+                gs.backToPanel();   //重新加载图形界面
                 gs.loadKey = false; //停止加载
             }
         }

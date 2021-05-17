@@ -24,7 +24,8 @@ public class ToolBox {
         Stage stage = new Stage();
         try {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(this.getClass().getResourceAsStream("/"+bu.level),
+                    new InputStreamReader(Objects.requireNonNull(
+                            this.getClass().getResourceAsStream("/" + bu.level)),
                             StandardCharsets.UTF_8)
             );
             String bg = br.readLine().split("\\|")[1]; //加载背景

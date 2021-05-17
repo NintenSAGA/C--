@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import part0.Fade;
 
 
 class BuildUp {
@@ -29,12 +30,7 @@ class BuildUp {
     ArrayList<Bullet> unShotList;   //未发射子弹
     ArrayList<Ball> unGenBallList;  //未生成球
 
-    float opacity;
-    float maxOpacity = 1.0F;
-    float oV;
-    float oA = 0.001F;
-    boolean fadeIn;
-    boolean fadeOut;
+    Fade fade;
 
     BufferedImage instruction1, instruction2;
     BufferedImage bg, tube;
@@ -50,6 +46,7 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+        fade = new Fade();
 
         try {
             font = Font.createFont(Font.TRUETYPE_FONT,
@@ -77,15 +74,12 @@ class BuildUp {
         Collections.shuffle(unShotList);                //乱序排列
         Collections.shuffle(unGenBallList);             //乱序排列
 
-        opacity = maxOpacity;
-        fadeIn = true;
-        oV = 0;
-        fadeOut = false;
-
         frame.add(display);
         frame.setVisible(true);
 
         timer.start();
+
+        fade.fadeInSetUp(Color.black);
     }
 
     public void loop() {
@@ -117,13 +111,17 @@ class BuildUp {
 
         st.update();        //更新射手
 
-        if (unShotList.isEmpty()) fadeOut = true;
+        if (unShotList.isEmpty()) gameSet();
 
-        fadeUpdate();
+        fade.fadeUpdate(0.01F);
     }
 
     public void gameSet() {
         //游戏通关
+        fade.fadeOutSetUp(Color.black, this::exit);
+    }
+
+    public void exit() {
         display.repaint();
         timer.stop();
         frame.remove(display);
@@ -131,9 +129,7 @@ class BuildUp {
     }
 
     public void gameRestart() {
-        //再来一次
-        timer.stop();
-        this.setUp(level);
+        fade.fadeOutSetUp(Color.black, () -> this.setUp(level));
     }
 
     class Display extends JPanel {
@@ -159,32 +155,7 @@ class BuildUp {
 
             g2d.drawImage(tube, 0, 0, null);
 
-            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
-
-        }
-    }
-
-    public void blackScreen(Graphics2D g2d) {
-        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
-        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, width, height);
-        g2d.dispose();
-    }
-
-    public void fadeUpdate() {
-        if (fadeIn) {
-            oV += oA;
-            opacity -= oV;
-            if (opacity <= 0) {
-                oV = 0;
-                fadeIn = false;
-            }
-        }
-        if (fadeOut) {
-            oV += oA;
-            opacity += oV;
-            if (opacity >= maxOpacity) gameSet();
+            fade.drawYourSelf(g2d);
         }
     }
 }

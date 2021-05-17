@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import part0.Fade;
 
 
 class BuildUp {
@@ -38,12 +39,7 @@ class BuildUp {
     BufferedImage instruction1, instruction2;
     Font font;
 
-    float opacity;
-    float maxOpacity = 1.0F;
-    float oV;
-    float oA = 0.001F;
-    boolean fadeIn;
-    boolean fadeOut;
+    Fade fade;
 
     Timer timer = new Timer(1000/fps,     //建立计时器
             (ActionEvent e) -> {
@@ -53,6 +49,7 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+        fade = new Fade();
 
         try {
             instruction1 = ImageIO.read(ToolBox.res("Instruction11.png"));
@@ -86,23 +83,20 @@ class BuildUp {
         SceneBuilder sB = new SceneBuilder();
         sB.ObjLoader(this, level);
 
-        opacity = maxOpacity;
-        fadeIn = true;
-        oV = 0;
-        fadeOut = false;
-
         frame.add(display);
         frame.setVisible(true);
 
         timer.start();
-    }
 
-    public boolean getKey() {
-        return exitSig;
+        fade.fadeInSetUp(Color.black);
     }
 
     public void loop() {
-        fadeUpdate();
+        if (groundSum == 0) {
+            gameSet();
+        }
+
+        fade.fadeUpdate(0.01F);
 
         hm.update(tileList, creatureList, itemList);
 
@@ -116,23 +110,22 @@ class BuildUp {
 
         itemList.forEach(i -> i.refresh(hm));
 
-        if (groundSum == 0) {
-            fadeOut = true;          //全部栽种完毕后通关
-        }
-
     }
 
     public void gameRestart() {
-        timer.stop();
-        this.setUp(level);
+        fade.fadeOutSetUp(Color.black, () -> this.setUp(level));
     }
 
     public void gameSet() {
+        fade.fadeOutSetUp(Color.black, this::exit);
+        //exit();
+    }
+
+    public void exit() {
         display.repaint();
         timer.stop();
         frame.remove(display);
         this.exitSig = true;
-
     }
 
     class Display extends JPanel {
@@ -151,37 +144,13 @@ class BuildUp {
 
             hm.printCh(g2d);
 
-            g2d.drawImage(hm.itemHoldKey ? instruction2 : instruction1, 0, 0, null);
+            g2d.drawImage(hm.specialSupportTile!=null ? instruction2 : instruction1, 0, 0, null);
 
             g2d.setFont(font.deriveFont(Font.BOLD, 25F));
             g2d.setColor(Color.white);
             g2d.drawString("剩余空地：%d处".formatted(groundSum), 1000, 42+25);
 
-            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
-        }
-    }
-
-    public void blackScreen(Graphics2D g2d) {
-        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
-        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, width, height);
-        g2d.dispose();
-    }
-
-    public void fadeUpdate() {
-        if (fadeIn) {
-            oV += oA;
-            opacity -= oV;
-            if (opacity <= 0) {
-                oV = 0;
-                fadeIn = false;
-            }
-        }
-        if (fadeOut) {
-            oV += oA;
-            opacity += oV;
-            if (opacity >= maxOpacity) gameSet();
+            fade.drawYourSelf(g2d);
         }
     }
 }

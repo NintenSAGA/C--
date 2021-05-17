@@ -2,10 +2,14 @@ package part0;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ToolBox {
     GameSelector gs;
@@ -117,6 +121,70 @@ public class ToolBox {
 
     public static URL res(String file) {
         return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+    }
+
+    public void textLoadIn() {
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader(Objects.requireNonNull(
+                        this.getClass().getResourceAsStream("/text")),
+                        StandardCharsets.UTF_8)
+        );
+
+        try {
+            String line = "";
+            ArrayList<String> text = new ArrayList<>();
+
+            while (!line.startsWith("Preface")){
+                line = br.readLine();
+            }
+            while (!(line = br.readLine()).startsWith("END_OF_THE_PREFACE")){
+                text.add(line);
+            }
+            gs.preface = String.join("\n", text);
+
+            text = new ArrayList<>();
+            while (!line.startsWith("Ending")){
+                line = br.readLine();
+            }
+            while (!(line = br.readLine()).startsWith("END_OF_THE_ENDING")){
+                text.add(line);
+            }
+            gs.ending = String.join("\n", text);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void infoLoadIn() {
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader(Objects.requireNonNull(
+                        this.getClass().getResourceAsStream("/Info")),
+                        StandardCharsets.UTF_8)
+        );
+
+        try {
+            String line;
+            String[] data;
+            int stageCursor = 0;
+            String intro = null;
+            String req = null;
+            String name = null;
+            while ((line = br.readLine()) != null) {
+                if(line.equals("\n")) continue;
+                data = line.split("\\|");
+                switch (data[0]) {
+                    case "S" -> {
+                        stageCursor = Integer.parseInt(data[1])-1;
+                        name = data[2];
+                    }
+                    case "Intro" -> intro = data[1];
+                    case "Req" -> req = data[1];
+                    case "END" -> gs.stageList.get(stageCursor).infoLoadIn(name, intro, req);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 

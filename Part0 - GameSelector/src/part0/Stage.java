@@ -10,11 +10,14 @@ public class Stage {
     private BufferedImage unSelected;
     private boolean isCleared;
     boolean isAvailable;
-    private int serialNum;
+    private final int serialNum;
     private int sLX = 0;
     private int sUY = 0;
     private int cLX = 0;
     private int cUY = 0;
+    private String intro;
+    private String req;
+    private String name;
 
     public Stage(int serialNum) {
         this.serialNum = serialNum;
@@ -52,16 +55,36 @@ public class Stage {
         }
     }
 
+    public void infoLoadIn(String name, String intro, String req) {
+        this.intro = "介绍：" + intro;
+        this.req = "要求：" + req;
+        this.name = name;
+    }
+
+    public void showInfo(Graphics2D g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setColor(Color.white);
+        ToolBox.drawString(g2d, intro+"\n\n"+req, 111, 225, 35);
+        g2d.dispose();
+    }
+
     public void setCleared() {
         isCleared = true;
         isAvailable = false;
     }
 
+    public boolean isCleared() {
+        return isCleared;
+    }
+
+    public void setAvailable() {
+        isAvailable = true;
+    }
+
     public void drawYourself(int selectedNum, Graphics2D g2d) {
         if (selectedNum == serialNum) drawSelected(g2d);
-        else drawUnSelected(g2d);
+        //else drawUnSelected(g2d);
         if (isCleared) drawCleared(g2d);
-        g2d.drawString(String.valueOf(serialNum), 640+sLX, 360+sUY);
     }
 
     public void drawSelected(Graphics2D g2d) {
@@ -83,5 +106,25 @@ public class Stage {
 
         g2d.dispose();
     }
+}
 
+class finalStage extends Stage {
+    BufferedImage unavailable, available;
+
+    public finalStage() {
+        super(5);
+        isAvailable = false;
+        try {
+            available = ImageIO.read(ToolBox.res("center1.png"));
+            unavailable = ImageIO.read(ToolBox.res("center0.png"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void drawYourself(int selectedNum, Graphics2D g2d) {
+        g2d.drawImage(isAvailable ? available:unavailable, 0, 0, null);
+        super.drawYourself(selectedNum, g2d);
+    }
 }

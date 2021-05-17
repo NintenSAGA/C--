@@ -302,7 +302,7 @@ class Human extends MovingObjects{
 
 
 //敌人
-class Enemy extends MovingObjects{
+class  Enemy extends MovingObjects{
     String imagePlace = "Enemy.png";
     int tileGap = 10;
     static int code =  130;

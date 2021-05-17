@@ -28,7 +28,7 @@ public class ToolBox {
         ArrayList<Arts> artsList;
         try {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(this.getClass().getResourceAsStream("/"+bu.level),
+                    new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/" + bu.level)),
                             StandardCharsets.UTF_8)
             );
             String[] info;
@@ -66,7 +66,7 @@ public class ToolBox {
                 artsList.add(new Arts(data[0], Integer.parseInt(data[1])));
                 line = br.readLine();
             } while (!line.equals("END_OF_ENEMY"));
-            enemy = new Enemy(info[1], Double.parseDouble(info[2]), artsList);
+            enemy = new Enemy(info[1], Double.parseDouble(info[2]), artsList, Integer.parseInt(info[3]));
 
             bu.player = player;
             bu.enemy = enemy;
@@ -80,7 +80,7 @@ public class ToolBox {
         ArrayList<String> result = new ArrayList<>();
         int count = 0;
         for (char ch:sentence.toCharArray()) {
-            if (count == 0 && "，。！？".indexOf(ch) != -1) {
+            if (count == 0 && "，。！”？.,…".indexOf(ch) != -1) {
                 result.set(result.size()-1, result.get(result.size()-1)+ch);
                 continue;
             } else {
@@ -104,6 +104,7 @@ public class ToolBox {
         y += fontSize;
         int dy = (int)(fontSize*1.2);
         for (String line : wordsWrapping(textNow, w)) {
+            if(line.contains("\t")) line = line.replace("\t", "        ");
             g.drawString(line, x, y);
             y += dy;
         }
@@ -116,9 +117,9 @@ public class ToolBox {
         keyMap.put('D', bu.scene::nextText);
         keyMap.put('W', bu.scene::up);
         keyMap.put('S', bu.scene::down);
-        keyMap.put('P', bu::gameSet);
+        keyMap.put('P', () -> bu.enemy.getDefeated());
         keyMap.put('O', bu::gameRestart);
-        keyMap.put('I', bu.scene::showInfo);
+        keyMap.put('E', bu.scene::showInfo);
 
         KeyStroke A_Pressed = KeyStroke.getKeyStroke('A', 0, false);
         KeyStroke D_Pressed = KeyStroke.getKeyStroke('D', 0, false);
@@ -126,7 +127,7 @@ public class ToolBox {
         KeyStroke P = KeyStroke.getKeyStroke('P', 0, false);
         KeyStroke O = KeyStroke.getKeyStroke('O', 0, false);
         KeyStroke S = KeyStroke.getKeyStroke('S', 0, false);
-        KeyStroke I = KeyStroke.getKeyStroke('I', 0, false);
+        KeyStroke E = KeyStroke.getKeyStroke('E', 0, false);
 
         AbstractAction left = new AbstractAction() {
             @Override
@@ -167,7 +168,7 @@ public class ToolBox {
         AbstractAction info = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                keyTransit('I');
+                keyTransit('E');
             }
         };
 
@@ -180,7 +181,7 @@ public class ToolBox {
         inputMap.put(P, "finish");
         inputMap.put(O, "restart");
         inputMap.put(S, "down");
-        inputMap.put(I, "info");
+        inputMap.put(E, "info");
 
         actionMap.put("left", left);
         actionMap.put("right", right);

@@ -3,8 +3,8 @@ package part2;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Objects;
+import part0.Fade;
 
 class BuildUp {
     boolean exitSig = false;
@@ -28,12 +28,7 @@ class BuildUp {
     Enemy enemy;
     Scene scene;
 
-    float opacity;
-    float maxOpacity = 1.0F;
-    float oV;
-    float oA = 0.001F;
-    boolean fadeIn;
-    boolean fadeOut;
+    Fade fade;
     Font font;
 
     Timer timer = new Timer(1000/fps,     //建立计时器
@@ -44,8 +39,9 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+        fade = new Fade();
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
+            font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(this.getClass().getResourceAsStream("/font.TTF")));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -54,10 +50,6 @@ class BuildUp {
     public void setUp(String level) {
         this.level = level;
         this.tb = new ToolBox(this);
-        opacity = maxOpacity;
-        fadeIn = true;
-        oV = 0;
-        fadeOut = false;
         exitSig = false;
 
         tb.levelLoadIn();
@@ -69,16 +61,18 @@ class BuildUp {
         frame.setVisible(true);
 
         timer.start();
+
+        fade.fadeInSetUp(Color.black, scene::nextText);
     }
 
     public void loop() {
-        if (!fadeIn) {
+        if (fade.isFinished()) {
             player.update();
             enemy.update();
             scene.update();
         }
 
-        fadeUpdate();
+        fade.fadeUpdate();
     }
 
     class Display extends JPanel {
@@ -89,7 +83,7 @@ class BuildUp {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setFont(font.deriveFont(Font.BOLD, fontSize));
             scene.drawTheScene(g2d);
-            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
+            fade.drawYourSelf(g2d);
         }
     }
 
@@ -98,7 +92,7 @@ class BuildUp {
     }
 
     public void gameSet() {
-        fadeOut = true;
+        fade.fadeOutSetUp(Color.black, this::gameExit);
     }
 
     public void gameExit() {
@@ -109,31 +103,6 @@ class BuildUp {
     }
 
     public void gameRestart() {
-        this.setUp(level);
-    }
-
-    public void blackScreen(Graphics2D g2d) {
-        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
-        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, width, height);
-        g2d.dispose();
-    }
-
-    public void fadeUpdate() {
-        if (fadeIn) {
-            oV += oA;
-            opacity -= oV;
-            if (opacity <= 0) {
-                oV = 0;
-                scene.nextText();
-                fadeIn = false;
-            }
-        }
-        if (fadeOut) {
-            oV += oA;
-            opacity += oV;
-            if (opacity >= maxOpacity) gameExit();
-        }
+        fade.fadeOutSetUp(Color.black, () -> this.setUp(level));
     }
 }

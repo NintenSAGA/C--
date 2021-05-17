@@ -194,7 +194,7 @@ class ToolBox {
         AbstractAction finish = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bu.gameSet();
+                bu.groundSum = 0;
             }
         };
         AbstractAction restart = new AbstractAction() {

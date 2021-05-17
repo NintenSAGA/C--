@@ -18,6 +18,14 @@ public class NewGame {
         do {
             System.out.print("");
         } while (!pro1.exitSig);
+        pro1.setUp("level_2.txt");     //加载关卡文件
+        do {
+            System.out.print("");
+        } while (!pro1.exitSig);
+        pro1.setUp("level_3.txt");     //加载关卡文件
+        do {
+            System.out.print("");
+        } while (!pro1.exitSig);
         return true;
     }
 }

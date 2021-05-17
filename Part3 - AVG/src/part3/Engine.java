@@ -1,5 +1,7 @@
 package part3;
 
+import part0.Fade;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,12 +29,7 @@ class BuildUp {
     String textNow;
     Stage stageNow;
 
-    float opacity;
-    float maxOpacity = 1.0F;
-    float oV;
-    float oA = 0.001F;
-    boolean fadeIn;
-    boolean fadeOut;
+    Fade fade;
 
     Font font;
 
@@ -44,6 +41,7 @@ class BuildUp {
 
     public BuildUp(JFrame frame) {
         this.frame = frame;
+        fade = new Fade();
 
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
@@ -62,10 +60,6 @@ class BuildUp {
         sceneNow = sceneList.get(0);
         stageNow = sceneNow.stageList.get(0);
         textNow = sceneNow.backGround;
-        opacity = maxOpacity;
-        fadeIn = true;
-        oV = 0;
-        fadeOut = false;
 
         tb.keyBindingSetUp();
 
@@ -73,11 +67,13 @@ class BuildUp {
         frame.setVisible(true);
 
         timer.start();
+
+        fade.fadeInSetUp(Color.black);
     }
 
     public void loop() {
-        if (!fadeIn) sceneNow.aniUpdate();
-        fadeUpdate();
+        if (fade.isFinished()) sceneNow.aniUpdate();
+        fade.fadeUpdate();
     }
 
     class Display extends JPanel {
@@ -90,13 +86,13 @@ class BuildUp {
 
             g2d.setFont(font.deriveFont(Font.BOLD, fontSize));
             sceneNow.printBG(g2d);
-            if (!fadeIn) sceneNow.printText(g2d);
-            if (fadeIn || fadeOut) blackScreen((Graphics2D) g2d.create());
+            if (fade.isFinished()) sceneNow.printText(g2d);
+            fade.drawYourSelf(g2d);
         }
     }
 
     public void gameSet() {
-        fadeOut = true;
+        fade.fadeOutSetUp(Color.black, this::gameExit);
     }
 
     public void gameExit() {
@@ -107,30 +103,6 @@ class BuildUp {
     }
 
     public void gameRestart() {
-        this.setUp(level);
-    }
-
-    public void blackScreen(Graphics2D g2d) {
-        AlphaComposite composite = (AlphaComposite) g2d.getComposite();
-        g2d.setComposite(composite.derive(Math.max(0F, Math.min(1.0F, opacity))));
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, width, height);
-        g2d.dispose();
-    }
-
-    public void fadeUpdate() {
-        if (fadeIn) {
-            oV += oA;
-            opacity -= oV;
-            if (opacity <= 0) {
-                oV = 0;
-                fadeIn = false;
-            }
-        }
-        if (fadeOut) {
-            oV += oA;
-            opacity += oV;
-            if (opacity >= maxOpacity) gameExit();
-        }
+        fade.fadeOutSetUp(Color.black, () -> this.setUp(level));
     }
 }
