@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import part0.Fade;
 
 
@@ -20,7 +22,7 @@ class BuildUp {
     static boolean levelScroll = true;          //水平卷轴开关
     static boolean verticalScroll = false;      //竖直卷轴开关
 
-    JFrame frame = new JFrame();
+    JFrame frame;
     Display display = new Display();
 
     int fps = 60;                               //设定每秒帧数
@@ -54,7 +56,7 @@ class BuildUp {
         try {
             instruction1 = ImageIO.read(ToolBox.res("Instruction11.png"));
             instruction2 = ImageIO.read(ToolBox.res("Instruction12.png"));
-            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
+            font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(this.getClass().getResourceAsStream("/font.TTF")));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

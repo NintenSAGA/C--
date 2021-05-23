@@ -222,7 +222,7 @@ class ToolBox {
         actionMap.put("rStop", rStop);
         actionMap.put("jump", jump);
         actionMap.put("useItem", useItem);
-        actionMap.put("finish", finish);
+        //actionMap.put("finish", finish);
         actionMap.put("restart", restart);
     }
 
@@ -230,12 +230,12 @@ class ToolBox {
         if (bgs.get(1).centralBgDetect() != 0) {    //加载下一张背景
             if (bgs.get(1).centralBgDetect() == -1) {
                 bgs.remove(0);
-                bgs.add(new BackGround((bgs.get(1).leftX +bgs.get(1).w), 0, bgs.get(1).ratio));
+                bgs.add(new BackGround((bgs.get(1).leftX + BackGround.w), 0, bgs.get(1).ratio));
                 System.out.print("yeah");
             }
             else {
                 bgs.remove(2);
-                bgs.add(0, new BackGround((bgs.get(0).leftX -bgs.get(1).w), 0, bgs.get(1).ratio));
+                bgs.add(0, new BackGround((bgs.get(0).leftX - BackGround.w), 0, bgs.get(1).ratio));
             }
         }
     }

@@ -24,6 +24,7 @@ public class GameSelector {
     BufferedImage bg0, Selections, Info, StageSelectLogo;
     BufferedImage instruction1, instruction2;
     BufferedImage preface1, preface2;
+    BufferedImage credit;
 
     ArrayList<Stage> stageList;
     int[][] selectPanel = {{0, 2, 0}, {1, 5, 3}, {0, 4, 0}};
@@ -77,6 +78,7 @@ public class GameSelector {
             prompt = ImageIO.read(ToolBox.res("prompt.png"));
             preface1 = ImageIO.read(ToolBox.res("preface1.png"));
             preface2 = ImageIO.read(ToolBox.res("preface2.png"));
+            credit = ImageIO.read(ToolBox.res("credit.png"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -145,6 +147,7 @@ public class GameSelector {
                     g2d.drawImage(Info, 0, 0, null);
                     stageList.get(selectPanel[f[0]][f[1]]-1).showInfo(g2d);
                 }
+                case 3 -> g2d.drawImage(credit, 0, 0, null);
             }
 
             fade0.drawYourSelf(g2d);
@@ -203,6 +206,10 @@ public class GameSelector {
                 }
             }
             case 1 -> fade1.fadeOutSetUp(Color.black, this::enterTheGame);
+            case 2 -> fade0.fadeOutSetUp(Color.white, () -> {
+                phase = 3;
+                fade1.fadeInSetUp(Color.white);
+            });
         }
     }
 

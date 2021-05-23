@@ -61,8 +61,7 @@ public class Fade {
                 }
                 fadeReset();
             }
-        }
-        if (fadeOut) {
+        } else if (fadeOut) {
             oV += oA;
             opacity += oV;
             if (opacity >= maxOpacity) {

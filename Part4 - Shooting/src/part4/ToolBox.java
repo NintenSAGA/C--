@@ -6,9 +6,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -28,7 +25,7 @@ class ToolBox {
         try {
             Stream<String> line =
                     new BufferedReader(
-                            new InputStreamReader(this.getClass().getResourceAsStream("/"+filePlace),
+                            new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/" + filePlace)),
                                     StandardCharsets.UTF_8)
                     ).lines();
             bu.unShotList = (ArrayList<Bullet>) line
@@ -113,7 +110,7 @@ class ToolBox {
         actionMap.put("right", right);
         actionMap.put("rStop", rStop);
         actionMap.put("shoot", shoot);
-        actionMap.put("finish", finish);
+        //actionMap.put("finish", finish);
         actionMap.put("restart", restart);
     }
 

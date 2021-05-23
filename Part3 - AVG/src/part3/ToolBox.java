@@ -139,8 +139,8 @@ public class ToolBox {
         actionMap.put("left", left);
         actionMap.put("right", right);
         actionMap.put("objection", objection);
-        actionMap.put("finish", finish);
-        actionMap.put("restart", restart);
+        //actionMap.put("finish", finish);
+        //actionMap.put("restart", restart);
     }
 
     public void keyTransit(char key) {

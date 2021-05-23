@@ -3,35 +3,21 @@ package part1;
 import javax.swing.*;
 
 public class NewGame {
-    public static void main (String[] args) {
-
-//        try {
-//            BuildUp pro1 = new BuildUp();
-//            pro1.setUp("material/Part1/Level");
-//            boolean key;
-//            while (true){
-//                //key = pro1.getKey();
-//                System.out.println("");
-//                if (pro1.exitSig) {
-//                    return;
-//                }
-//                //key = pro1.getKey();
-//            }
-//            //new BuildUp().run();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-    }
-
     public static boolean runThis (JFrame frame) {
         BuildUp pro1 = new BuildUp(frame);
-        pro1.setUp("Level");     //加载关卡文件
-        while (true){
+        pro1.setUp("Level-01");     //加载关卡文件
+        do {
             System.out.print("");
-            if (pro1.exitSig) {
-                return true;
-            }
-        }
+        } while (!pro1.exitSig);
+        pro1.setUp("Level-02");     //加载关卡文件
+        do {
+            System.out.print("");
+        } while (!pro1.exitSig);
+        pro1.setUp("Level-03");     //加载关卡文件
+        do {
+            System.out.print("");
+        } while (!pro1.exitSig);
+        return true;
     }
 }
 
