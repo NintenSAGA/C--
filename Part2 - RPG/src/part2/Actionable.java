@@ -47,7 +47,7 @@ public class Actionable {
     public void useArt(int code, Actionable target, int mode) {
         Arts art = getArt(code, mode);
 
-        if (art.isAvailable()) {
+        if (art!=null && art.isAvailable()) {
             art.getUsed();
             target.getHurt(art.getDamage());
             scene.textAppend(
@@ -136,6 +136,10 @@ public class Actionable {
 
     public Arts getSelectedArt(int index, int mode) {
         return mode == 0 ? artsList.get(index) : recoveryList.get(index);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }
 
@@ -229,6 +233,14 @@ class Enemy extends Actionable{
         }
     }
 
+    @Override
+    public void useArt(int code) {
+        Arts art = this.getArt(code, 0);
+        if ((art.getDamage() >= this.getScene().player.getHp())
+        && Math.random() < 0.8) code = 100;
+        super.useArt(code);
+    }
+
     public void sceneTie(Scene scene) {
         super.sceneTie(scene);
         this.target = scene.player;
@@ -252,5 +264,7 @@ class Enemy extends Actionable{
     public void drawBack(Graphics2D g2d, int type) {
 
     }
+
+
 }
 
