@@ -241,6 +241,6 @@ class ToolBox {
     }
 
     public static URL res(String file) {
-        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+        return Objects.requireNonNull(ToolBox.class.getResource("/part1/" +file));
     }
 }

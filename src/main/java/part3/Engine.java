@@ -44,7 +44,7 @@ class BuildUp {
         fade = new Fade();
 
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/font.TTF"));
+            font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/part3/font.TTF"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

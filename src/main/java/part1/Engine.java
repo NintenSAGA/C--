@@ -56,7 +56,7 @@ class BuildUp {
         try {
             instruction1 = ImageIO.read(ToolBox.res("Instruction11.png"));
             instruction2 = ImageIO.read(ToolBox.res("Instruction12.png"));
-            font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(this.getClass().getResourceAsStream("/font.TTF")));
+            font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(this.getClass().getResourceAsStream("/part1/font.TTF")));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

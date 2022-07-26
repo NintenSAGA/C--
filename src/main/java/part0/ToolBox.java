@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class ToolBox {
     GameSelector gs;
@@ -120,13 +119,13 @@ public class ToolBox {
     }
 
     public static URL res(String file) {
-        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+        return Objects.requireNonNull(ToolBox.class.getResource("/part0/" +file));
     }
 
     public void textLoadIn() {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(Objects.requireNonNull(
-                        this.getClass().getResourceAsStream("/text")),
+                        this.getClass().getResourceAsStream("/part0/text")),
                         StandardCharsets.UTF_8)
         );
 
@@ -158,7 +157,7 @@ public class ToolBox {
     public void infoLoadIn() {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(Objects.requireNonNull(
-                        this.getClass().getResourceAsStream("/Info")),
+                        this.getClass().getResourceAsStream("/part0/Info")),
                         StandardCharsets.UTF_8)
         );
 

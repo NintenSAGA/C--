@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
-import part2.ToolBox.*;
 
 public class GameSelector {
     JFrame frame = new JFrame();
@@ -67,7 +66,7 @@ public class GameSelector {
 
         try {
             font = Font.createFont(Font.TRUETYPE_FONT,
-                    Objects.requireNonNull(this.getClass().getResourceAsStream("/font.TTF")));
+                    Objects.requireNonNull(this.getClass().getResourceAsStream("/part0/font.TTF")));
             bg0 = ImageIO.read(ToolBox.res("bg0.png"));
             Selections = ImageIO.read(ToolBox.res("Selections.png"));
             Info = ImageIO.read(ToolBox.res("Info.png"));

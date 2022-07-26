@@ -4,14 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class ToolBox {
     BuildUp bu;
@@ -28,7 +26,7 @@ public class ToolBox {
         ArrayList<Arts> artsList;
         try {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/" + bu.level)),
+                    new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/part2/" + bu.level)),
                             StandardCharsets.UTF_8)
             );
             String[] info;
@@ -197,7 +195,7 @@ public class ToolBox {
     }
 
     public static URL res(String file) {
-        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+        return Objects.requireNonNull(ToolBox.class.getResource("/part2/" +file));
     }
 
 

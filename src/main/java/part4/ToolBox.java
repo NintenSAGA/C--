@@ -25,7 +25,7 @@ class ToolBox {
         try {
             Stream<String> line =
                     new BufferedReader(
-                            new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/" + filePlace)),
+                            new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/part4/" + filePlace)),
                                     StandardCharsets.UTF_8)
                     ).lines();
             bu.unShotList = (ArrayList<Bullet>) line
@@ -145,6 +145,6 @@ class ToolBox {
     }
 
     public static URL res(String file) {
-        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+        return Objects.requireNonNull(ToolBox.class.getResource("/part4/" +file));
     }
 }

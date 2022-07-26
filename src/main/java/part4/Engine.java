@@ -50,7 +50,7 @@ class BuildUp {
 
         try {
             font = Font.createFont(Font.TRUETYPE_FONT,
-                    this.getClass().getResourceAsStream("/font.TTF"));
+                    this.getClass().getResourceAsStream("/part4/font.TTF"));
             instruction1 = ImageIO.read(ToolBox.res("Instruction41.png"));
             instruction2 = ImageIO.read(ToolBox.res("Instruction42.png"));
             bg = ImageIO.read(ToolBox.res("bg.png"));

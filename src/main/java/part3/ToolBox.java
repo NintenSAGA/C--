@@ -25,7 +25,7 @@ public class ToolBox {
         try {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(Objects.requireNonNull(
-                            this.getClass().getResourceAsStream("/" + bu.level)),
+                            this.getClass().getResourceAsStream("/part3/" + bu.level)),
                             StandardCharsets.UTF_8)
             );
             String bg = br.readLine().split("\\|")[1]; //加载背景
@@ -149,6 +149,6 @@ public class ToolBox {
     }
 
     public static URL res(String file) {
-        return Objects.requireNonNull(ToolBox.class.getResource("/"+file));
+        return Objects.requireNonNull(ToolBox.class.getResource("/part3/" +file));
     }
 }

@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 class BackGround {
     BufferedImage bg;
@@ -60,7 +59,7 @@ class SceneBuilder {
     public void levelLoader(String level) {
         try {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(this.getClass().getResourceAsStream("/"+level),
+                    new InputStreamReader(this.getClass().getResourceAsStream("/part1/" +level),
                             StandardCharsets.UTF_8)
             );
 
