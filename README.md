@@ -1,10 +1,12 @@
+![logo_page](assets/title.png)
+
 # C--
 
-**Written by** 谭子悦
+A Java game composed of 4 mini games written for a programming design contest during 2021.04~06, whose theme is carbon neutrality.
 
 
 
-## 简介
+## 1. 简介
 
 本游戏为**2021年南京大学软件学院EL程序设计大赛交互组**参赛作品，主题为**碳中和**。
 
@@ -21,102 +23,47 @@
 
 
 
-## 作品实现
+## 1.1 实现
 
-最终作品全部由 **Java** 从0开始编写，图形界面由 **Java Swing** 实现，制作过程中未直接套用任何现成代码；所用美工素材均为在一定程度上借鉴部分已有作品的基础上自制而成；由于开发时间有限，并未制作背景音乐及声效。
-
-最终作品以 __jar__ 格式发布 。
+最终作品完全由 **Java** 编写，图形界面由 **Java Swing** 实现。所用贴图素材未直接使用现成素材，但有参考实际游戏素材；由于开发时间有限，并未制作背景音乐及声效。
 
 
 
-## 开发环境
+## 2. Build & Run
 
-__Operating System__: macOS Big Sur 11.3.1
+The game is built by Maven. You can simply build it by typing:
 
-__IDE__: IntelliJ IDEA Ultimate 2021.1.1
+```shell
+path/to/root> mvn package
+```
 
-__JDK__: Java(TM) SE Runtime Environment (build 15.0.2+7-27)
+And the product is `jar` file. Hence you can run it by typing:
 
-__Language Level__: Java 15
+```shell
+path/of/jar> java -jar C--.jar
+```
 
-
-
-## 测试环境
-
-### macOS
-
-__Java Version__: 15.0.2
-
-__System Version__: macOS Big Sur 11.3.1
-
-__Display Resolution__: 2560 × 1600
-
-__Test Model__: MacBook Pro (13-inch, 2020, Four Thunderbolt 3 ports)
-
-__Result__: 可正常运行，画面大小正常，帧数均可达到最高（45fps)，字体及贴图渲染清晰，未发现bug。
-
-### Windows (Virtual Machine)
-
-__Java Version__: 16.0.1
-
-__System Version__: Windows 10 2004 (running on Parallels Desktop 16.1.2)
-
-__Display Resolution__: 2560 × 1600
-
-__Test Model__: MacBook Pro (13-inch, 2020, Four Thunderbolt 3 ports)
-
-__Result__: 可正常运行，画面大小正常，所有部分均存在掉帧现象（经测试在非虚拟机环境也存在），贴图渲染正常，字体渲染较为粗糙，未发现bug。
+The game is tested to run smoothly on macOS, and run successfully but with performance issue on Ubuntu and Windows 10 (11 is not tested).
 
 
 
-## 制作人员
-
-**组	名**		心之怪盗团
-
-**组	长**		谭子悦
-
-**组	员**		李佳骏 李亚飞 邱兴驰
-
-
-
-__策 划__     谭子悦 李佳骏	李亚飞	邱兴驰
-
-__代码编写__   谭子悦
-
-__美	工__		  谭子悦
-
-__文	案__		  邱兴驰（P2、3）李亚飞（引言、结语） 李佳骏（介绍）谭子悦（介绍）
-
-__游戏设计__	 谭子悦
-
-__关卡设计__	 邱兴驰  谭子悦
-
-
-
-## 创意来源
+## 3. 创意来源
 
 #### Part 1 拯救沙中绿 
 
-- 游戏模式及美工借鉴自***Super Mario World (Nintendo, 1990)***。
-
-- 在实现了人物移动、碰撞检测、平台支撑、机关触发等功能的基础上加入*种下树苗*的动作，以此实现本部分的基本玩法。
+- 游戏模式及美工借鉴自 ***Super Mario World (Nintendo, 1990)***。
 
 #### Part 2 污染肃清
 
-- 游戏模式及美工借鉴自***Pokémon Sword/Shield (Game Freak, 2019)***。
-- 实现了回合制的游戏形式与*攻击*和*回复*两种动作选择。
-- 美工借鉴形象为*路卡利欧*、*雷希拉姆*、*捷克罗姆*、*酋雷姆*。
+- 游戏模式及 UI 借鉴自 ***Pokémon Sword/Shield (Game Freak, 2019)***。
+- 借鉴宝可梦形象有*路卡利欧*、*雷希拉姆*、*捷克罗姆*、*酋雷姆*。
 
 #### Part 3 Wake Up Everyone!
 
-- 游戏模式及美工借鉴自***逆伝裁判 (Capcom, 2001)***。
-
-- 实现了背景、提问、回答、质询、反对、提示等场景，主要玩法与原作”质询中指出矛盾点“相似。
-- 美工借鉴形象为*成步堂龙一*、*御剑怜寺*、*亚内武文*、*狩魔豪*
+- 游戏模式及人物、UI 等借鉴自***逆伝裁判 (Capcom, 2001)***。
+- 借鉴人物形象为*成步堂龙一*、*御剑怜寺*、*亚内武文*、*狩魔豪*
 
 #### Part 4 什么？垃圾！
 
-- 游戏模式借鉴自2D定点射击类游戏（无直接借鉴对象），美工为原创。
-- 实现了旋转射击、子弹装载、自动回收、文字提示、目标生成等功能。
-- 为了提高加载效率，最终版本大量使用了Java Stream API，但因此成为了全游戏中处理器负载最大的部分。
+- 2D定点射击游戏，美工为原创。
 
