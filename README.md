@@ -2,6 +2,8 @@
 
 # C--
 
+![Java](https://img.shields.io/badge/-JDK15-FC801D?style=flat&logo=Java&logoColor=white)![Platform](https://img.shields.io/badge/Platform-macOS_|_Windows_|_Linux-white)
+
 A Java game composed of 4 mini games written for a programming design contest during 2021.04~06, whose theme is carbon neutrality.
 
 
